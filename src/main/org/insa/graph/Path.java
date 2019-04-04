@@ -3,6 +3,7 @@ package org.insa.graph;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * <p>
@@ -213,9 +214,16 @@ public class Path {
      * 
      * @deprecated Need to be implemented.
      */
+    
     public float getLength() {
         // TODO:
-        return 0;
+    	float length = 0;
+    	ListIterator<Arc> itArc = this.arcs.listIterator();
+    	while (itArc.hasNext())
+    	{
+    		length+= (itArc.next()).getLength();
+    	}
+        return length;
     }
 
     /**
