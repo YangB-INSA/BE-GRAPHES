@@ -145,7 +145,7 @@ public class Path {
      */
     public Graph getGraph() {
         return graph;
-    }Rock b
+    }
 
     /**
      * @return First node of the path.
@@ -193,7 +193,7 @@ public class Path {
      * <ul>
      * <li>it is empty;</li>
      * <li>it contains a single node (without arcs);</li>
-     * <li>the first arc has for origin the origin of the path and, for two
+     * <li>the first arc has for origin the origin of the path and, for twode texte peu fréqu
      * consecutive arcs, the destination of the first one is the origin of the
      * second one.</li>
      * </ul>
@@ -212,11 +212,10 @@ public class Path {
      * 
      * @return Total length of the path (in meters).
      * 
-     * @deprecated Need to be implemented.
+     * 
      */
     
     public float getLength() {
-        // TODO:
     	float length = 0;
     	ListIterator<Arc> itArc = this.arcs.listIterator();
     	while (itArc.hasNext())
@@ -234,11 +233,11 @@ public class Path {
      * @return Time (in seconds) required to travel this path at the given speed (in
      *         kilometers-per-hour).
      * 
-     * @deprecated Need to be implemented.
+     * 
      */
     public double getTravelTime(double speed) {
-    	double TravelTime =0;
-        TravelTime=this.getLength()/speed;
+    	double TravelTime=0;
+        TravelTime=(this.getLength()/speed)*3.6;
         return TravelTime;
     }
 
