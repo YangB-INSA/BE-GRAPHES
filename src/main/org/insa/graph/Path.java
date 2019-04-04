@@ -145,7 +145,7 @@ public class Path {
      */
     public Graph getGraph() {
         return graph;
-    }Rock b
+    }
 
     /**
      * @return First node of the path.
@@ -211,12 +211,9 @@ public class Path {
      * Compute the length of this path (in meters).
      * 
      * @return Total length of the path (in meters).
-     * 
-     * @deprecated Need to be implemented.
      */
     
     public float getLength() {
-        // TODO:
     	float length = 0;
     	ListIterator<Arc> itArc = this.arcs.listIterator();
     	while (itArc.hasNext())
@@ -234,7 +231,7 @@ public class Path {
      * @return Time (in seconds) required to travel this path at the given speed (in
      *         kilometers-per-hour).
      * 
-     * @deprecated Need to be implemented.
+
      */
     public double getTravelTime(double speed) {
     	double TravelTime =0;
