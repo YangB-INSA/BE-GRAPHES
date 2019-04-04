@@ -17,6 +17,7 @@ import java.util.List;
  *
  */
 public class Path {
+	
 
     /**
      * Create a new path that goes through the given list of nodes (in order),
@@ -143,7 +144,7 @@ public class Path {
      */
     public Graph getGraph() {
         return graph;
-    }
+    }Rock b
 
     /**
      * @return First node of the path.
@@ -173,7 +174,7 @@ public class Path {
      */
     public boolean isEmpty() {
         return this.origin == null;
-    }
+    }protected double TravelTime;
 
     /**
      * Get the number of <b>nodes</b> in this path.
@@ -228,8 +229,9 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public double getTravelTime(double speed) {
-        // TODO:
-        return 0;
+    	double TravelTime =0;
+        TravelTime=this.getLength()/speed;
+        return TravelTime;
     }
 
     /**
