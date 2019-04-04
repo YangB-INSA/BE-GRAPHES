@@ -193,7 +193,7 @@ public class Path {
      * <ul>
      * <li>it is empty;</li>
      * <li>it contains a single node (without arcs);</li>
-     * <li>the first arc has for origin the origin of the path and, for two
+     * <li>the first arc has for origin the origin of the path and, for twode texte peu fréqu
      * consecutive arcs, the destination of the first one is the origin of the
      * second one.</li>
      * </ul>
@@ -204,13 +204,54 @@ public class Path {
      */
     public boolean isValid() {
         // TODO:
-        return false;
+    	boolean valid = false;
+    	ListIterator<Arc> itArc = this.arcs.listIterator();
+    	Arc arc1;
+    	Arc arc2;
+    	boolean erreur = false;
+    	
+    	if (this.isEmpty()==true)
+    	{
+    		valid = true;
+    	}
+    	else if (this.size()==1)
+    	{
+    		valid = true;
+    	}
+    	else
+    	{
+    		arc1 = itArc.next();
+    		arc2 = itArc.next();
+    		if (arc1.getOrigin()== this.getOrigin())
+    		{
+	        	while (itArc.hasNext() && (erreur == false))
+	        	{
+	        		if (arc1.getDestination()!=arc2.getOrigin())
+	        		{
+	        			erreur = true;
+	        		}
+	        		arc1 = arc2;
+	        		arc2 = itArc.next();	
+	        	}
+	        	if (erreur == false)
+	        	{
+	        		valid = true;
+	        	}
+    		}
+    	}    	
+    	
+        return valid;
     }
 
     /**
      * Compute the length of this path (in meters).
      * 
      * @return Total length of the path (in meters).
+<<<<<<< HEAD
+=======
+     * 
+     * 
+>>>>>>> 5cb2d6f887b2b865e2756ea94355cd61ba5bcf81
      */
     
     public float getLength() {
@@ -231,11 +272,15 @@ public class Path {
      * @return Time (in seconds) required to travel this path at the given speed (in
      *         kilometers-per-hour).
      * 
+<<<<<<< HEAD
 
+=======
+     * 
+>>>>>>> 5cb2d6f887b2b865e2756ea94355cd61ba5bcf81
      */
     public double getTravelTime(double speed) {
-    	double TravelTime =0;
-        TravelTime=this.getLength()/speed;
+    	double TravelTime=0;
+        TravelTime=(this.getLength()/speed)*3.6;
         return TravelTime;
     }
 
