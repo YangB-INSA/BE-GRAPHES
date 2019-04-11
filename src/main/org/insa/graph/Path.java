@@ -33,44 +33,45 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
      */
-    public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
-            throws IllegalArgumentException {
-        List<Arc> arcs = new ArrayList<Arc>();
-        Arc FastestPath=null;
-        
-    	/*for (Node node: nodes) {
-    		for (Arc arc: node.getSuccessors()) {
-    			if (arc.getDestination().equals(node){
-    				FastestPath=arc;
-    			
-    			}
-    			
-    		}
-    	} */
-        
-        for (Iterator<Node> it = nodes.iterator(); it.hasNext();){
-        	List<Arc> zearc= it.next().getSuccessors();  
-        	for (Arc arc : zearc){ /* cette boucle n'est pas vraiment bonne, je dois la retravailler */
-        		if (arc.getDestination().equals(it.next())){
-        			if (FastestPath == null) {
-            			FastestPath = arc;
+    public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes) throws IllegalArgumentException {
+    	if (nodes.isEmpty()) {
+    		Node emptyarc =null;
+        	return new Path(graph, emptyarc);
+        }
+    	List<Arc> arcs = new ArrayList<Arc>();
+        Arc FastestArc=null;
+        ListIterator<Node> itNode = nodes.listIterator();
+        Node node1 = itNode.next();
+        if (nodes.size()==1){
+    		return new Path(graph, node1);
+        }
+        Node node2;// = itNode.next();
+    	while (itNode.hasNext()) {
+    		node2 = itNode.next();
+    		List<Arc> zearc= node1.getSuccessors();  
+        	for (Arc arc : zearc){
+        		if (arc.getDestination().equals(node2)){
+        			if (FastestArc == null) {
+            			FastestArc = arc;
         			}
-        			else if (arc.getMinimumTravelTime()< FastestPath.getMinimumTravelTime()) {
-            			FastestPath = arc;
+        			else if (arc.getMinimumTravelTime()< FastestArc.getMinimumTravelTime()) {
+            			FastestArc = arc;
             		}
         		}
         	}
-        	if (FastestPath == null) {
-        		/* erreur, aucun arc ne mène au node suivant */
+        	if (FastestArc == null) {
+        		throw new IllegalArgumentException("il n'y aucun arc menant au node voulu");
         	}
-        	else {
-        		arcs.add(FastestPath);
-        		FastestPath=null;
-        	}
+        	arcs.add(FastestArc);
+        	FastestArc=null;
+      
+        	node1 = node2;
+        	//node2 = itNode.next();
+        }
         return new Path(graph, arcs);
     }
+
 
     /**
      * Create a new path that goes through the given list of nodes (in order),
@@ -84,20 +85,42 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
      */
-    public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
-            throws IllegalArgumentException {
-        List<Arc> arcs = new ArrayList<Arc>();
-        ListIterator<Node> itnodes = nodes.listIterator() ;
-        Arc arc=null;
-        while (itnodes.hasNext())
-    	{
-    		arc=(itnodes.next()).linkNodes(itnodes.previous(), itnodes.next(), length, roadInformation, points);
-        	arcs.add(arc);
-        	
-    	}
-   
+    public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes) throws IllegalArgumentException {
+    	if (nodes.isEmpty()) {
+    		Node emptyarc =null;
+        	return new Path(graph, emptyarc);
+        }
+    	List<Arc> arcs = new ArrayList<Arc>();
+        Arc FastestArc=null;
+        ListIterator<Node> itNode = nodes.listIterator();
+        Node node1 = itNode.next();
+        if (nodes.size()==1){
+    		return new Path(graph, node1);
+        }
+        Node node2;// = itNode.next();
+    	while (itNode.hasNext()) {
+    		node2 = itNode.next();
+    		List<Arc> zearc= node1.getSuccessors();  
+        	for (Arc arc : zearc){
+        		if (arc.getDestination().equals(node2)){
+        			if (FastestArc == null) {
+            			FastestArc = arc;
+        			}
+        			else if (arc.getLength()< FastestArc.getLength()) {
+            			FastestArc = arc;
+            		}
+        		}
+        	}
+        	if (FastestArc == null) {
+        		throw new IllegalArgumentException("il n'y aucun arc menant au node voulu");
+        	}
+        	arcs.add(FastestArc);
+        	FastestArc=null;
+      
+        	node1 = node2;
+        	//node2 = itNode.next();
+        }
         return new Path(graph, arcs);
     }
 
