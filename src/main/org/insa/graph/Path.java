@@ -36,7 +36,7 @@ public class Path {
      */
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes) throws IllegalArgumentException {
     	if (nodes.isEmpty()) {
-    		Node emptyarc =null;
+    		Node emptyarc=null;
         	return new Path(graph, emptyarc);
         }
     	List<Arc> arcs = new ArrayList<Arc>();
@@ -46,7 +46,7 @@ public class Path {
         if (nodes.size()==1){
     		return new Path(graph, node1);
         }
-        Node node2;// = itNode.next();
+        Node node2;
     	while (itNode.hasNext()) {
     		node2 = itNode.next();
     		List<Arc> zearc= node1.getSuccessors();  
@@ -67,7 +67,6 @@ public class Path {
         	FastestArc=null;
       
         	node1 = node2;
-        	//node2 = itNode.next();
         }
         return new Path(graph, arcs);
     }
