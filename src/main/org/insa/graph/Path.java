@@ -2,6 +2,7 @@ package org.insa.graph;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -37,7 +38,37 @@ public class Path {
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
+        Arc FastestPath=null;
+        
+    	/*for (Node node: nodes) {
+    		for (Arc arc: node.getSuccessors()) {
+    			if (arc.getDestination().equals(node){
+    				FastestPath=arc;
+    			
+    			}
+    			
+    		}
+    	} */
+        
+        for (Iterator<Node> it = nodes.iterator(); it.hasNext();){
+        	List<Arc> zearc= it.next().getSuccessors();  
+        	for (Arc arc : zearc){ /* cette boucle n'est pas vraiment bonne, je dois la retravailler */
+        		if (arc.getDestination().equals(it.next())){
+        			if (FastestPath == null) {
+            			FastestPath = arc;
+        			}
+        			else if (arc.getMinimumTravelTime()< FastestPath.getMinimumTravelTime()) {
+            			FastestPath = arc;
+            		}
+        		}
+        	}
+        	if (FastestPath == null) {
+        		/* erreur, aucun arc ne mène au node suivant */
+        	}
+        	else {
+        		arcs.add(FastestPath);
+        		FastestPath=null;
+        	}
         return new Path(graph, arcs);
     }
 
@@ -212,15 +243,54 @@ public class Path {
      */
     public boolean isValid() {
         // TODO:
-        return false;
+    	boolean valid = false;
+    	ListIterator<Arc> itArc = this.arcs.listIterator();
+    	Arc arc1;
+    	Arc arc2;
+    	boolean erreur = false;
+    	
+    	if (this.isEmpty()==true)
+    	{
+    		valid = true;
+    	}
+    	else if (this.size()==1)
+    	{
+    		valid = true;
+    	}
+    	else
+    	{
+    		arc1 = itArc.next();
+    		arc2 = itArc.next();
+    		if (arc1.getOrigin()== this.getOrigin())
+    		{
+	        	while (itArc.hasNext() && (erreur == false))
+	        	{
+	        		if (arc1.getDestination()!=arc2.getOrigin())
+	        		{
+	        			erreur = true;
+	        		}
+	        		arc1 = arc2;
+	        		arc2 = itArc.next();	
+	        	}
+	        	if (erreur == false)
+	        	{
+	        		valid = true;
+	        	}
+    		}
+    	}    	
+    	
+        return valid;
     }
 
     /**
      * Compute the length of this path (in meters).
      * 
      * @return Total length of the path (in meters).
+<<<<<<< HEAD
+=======
      * 
      * 
+>>>>>>> 5cb2d6f887b2b865e2756ea94355cd61ba5bcf81
      */
     
     public float getLength() {
@@ -241,7 +311,11 @@ public class Path {
      * @return Time (in seconds) required to travel this path at the given speed (in
      *         kilometers-per-hour).
      * 
+<<<<<<< HEAD
+
+=======
      * 
+>>>>>>> 5cb2d6f887b2b865e2756ea94355cd61ba5bcf81
      */
     public double getTravelTime(double speed) {
     	double TravelTime=0;
