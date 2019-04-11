@@ -2,6 +2,7 @@ package org.insa.graph;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -37,7 +38,37 @@ public class Path {
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
+        Arc FastestPath=null;
+        
+    	/*for (Node node: nodes) {
+    		for (Arc arc: node.getSuccessors()) {
+    			if (arc.getDestination().equals(node){
+    				FastestPath=arc;
+    			
+    			}
+    			
+    		}
+    	} */
+        
+        for (Iterator<Node> it = nodes.iterator(); it.hasNext();){
+        	List<Arc> zearc= it.next().getSuccessors();  
+        	for (Arc arc : zearc){ /* cette boucle n'est pas vraiment bonne, je dois la retravailler */
+        		if (arc.getDestination().equals(it.next())){
+        			if (FastestPath == null) {
+            			FastestPath = arc;
+        			}
+        			else if (arc.getMinimumTravelTime()< FastestPath.getMinimumTravelTime()) {
+            			FastestPath = arc;
+            		}
+        		}
+        	}
+        	if (FastestPath == null) {
+        		/* erreur, aucun arc ne mène au node suivant */
+        	}
+        	else {
+        		arcs.add(FastestPath);
+        		FastestPath=null;
+        	}
         return new Path(graph, arcs);
     }
 
