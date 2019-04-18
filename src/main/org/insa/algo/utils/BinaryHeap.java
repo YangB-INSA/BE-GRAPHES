@@ -149,72 +149,33 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     public void remove(E x) throws ElementNotFoundException {
     	if (this.isEmpty())
     	{
-    		throw new ElementNotFoundException("Element not found");
+    		throw new ElementNotFoundException(x);
     	}
-    	ListIterator<E> itE = array.listIterator();
-    	E element = itE.next();
     	int index =0;
     	boolean trouve = false;
-    	while (itE.hasNext() && trouve == false)
+    	while (trouve == false && index < currentSize)	
     	{
-    		
-    		if (element== x)
+    		if (array.get(index).equals(x))
     		{
     			trouve = true;
-    			index ++;
     		}
     		else
     		{
-    			element=itE.next();
     			index++;
     		}
     	}
     	if (trouve==false)
-    		throw new ElementNotFoundException("Element not found");
+    		throw new ElementNotFoundException(x);
     	else
     	{
     		//on inverse l'élement trouvé avec le dernier élement
     		E lastElement = array.get(currentSize-1);
     		arraySet(currentSize-1, x);
     		arraySet(index, lastElement);
-    		//on enleve le nouveau dernier élement (égal a x donc)
     		//+mise a jour de la taille total
-    		array.remove(currentSize-1);
     		currentSize--;
-    		//si l'élement à retiré était le père, il faut 
-    		//percolate down depuis l'index 0:
-    		if (index ==0)
-    		{
-    			percolateDown(0);
-    		}
-    		else if (index == currentSize)	//si l'élement à retirer était le dernier
-    		{
-    			//rien a faire, pas besoin de percolate
-    		}
-    		else	
-    		{
-    			// si l'element n'a pas de fils, il suffit de percolate up
-    			if (index_left(index) > currentSize)
-    				percolateUp(index);
-    			else 
-    			{
-    				// si il est superieur au père, il faut percolate up
-    				if (lastElement.compareTo(array.get(index_parent(index)))>=0)
-    				{
-    					percolateUp(index);
-    				}
-    				//sinon, il faut potentiellement percolate down
-    				else
-    				{
-    					percolateDown(index);
-    				}
-    			}
-    				
-    		}
-    		
-    		
-    		
-    		
+    		percolateUp(index);
+    		percolateDown(index);
     	}
     }
 
