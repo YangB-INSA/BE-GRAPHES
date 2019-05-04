@@ -1,6 +1,7 @@
 package org.insa.graph;
 
-public class Label {
+public class Label implements Comparable<Label>{
+	
 	//booléen, vrai lorsque le coût min de ce sommet est définitivement connu par l'algorithme.
 	public boolean marque;
 	
@@ -20,5 +21,22 @@ public class Label {
 	public int getCost()
 	{
 		return this.cout;
+	}
+	public int compareTo(Label label)
+	{
+		int result =0;
+		if (this.getCost()>label.getCost())
+		{
+			result = 1;
+		}
+		if (this.getCost()==label.getCost())
+		{
+			result = 0;
+		}
+		if (this.getCost()<label.getCost())
+		{
+			result = -1;
+		}
+		return result;
 	}
 }
