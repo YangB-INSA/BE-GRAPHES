@@ -1,4 +1,5 @@
 package org.insa.graph;
+import java.util.Comparator;
 
 public class Label implements Comparable<Label>{
 	
@@ -7,18 +8,18 @@ public class Label implements Comparable<Label>{
 	
 	public int sommet_courant;
 	
-	public int cout;
+	public double cout;
 	
 	public int pere;
 	
-	public Label(int init_id_sommet,boolean init_marque,int init_cout,int init_id_pere)
+	public Label(int init_id_sommet,boolean init_marque,double init_cout,int init_id_pere)
 	{
 		this.marque = init_marque;
 		this.sommet_courant=init_id_sommet;
 		this.cout=init_cout;
 		this.pere=init_id_pere;
 	}
-	public int getCost()
+	public double getCost()
 	{
 		return this.cout;
 	}
@@ -39,4 +40,18 @@ public class Label implements Comparable<Label>{
 		}
 		return result;
 	}
+	
+	public int getSommet()
+	{
+		return this.sommet_courant;
+	}
+    public static Comparator<Label> ComparatorSommet = new Comparator<Label>() {
+        
+        @Override
+        public int compare(Label l1, Label l2) {
+            return (l1.getSommet()-l2.getSommet());
+        }
+    };
+	
+	
 }
