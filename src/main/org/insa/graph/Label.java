@@ -10,15 +10,16 @@ public class Label implements Comparable<Label>{
 	
 	public double cout;
 	
-	public int pere;
+	public Arc pere;
 	
-	public Label(int init_id_sommet,boolean init_marque,double init_cout,int init_id_pere)
+	public Label(int init_id_sommet,boolean init_marque,double init_cout,Arc init_pere)
 	{
 		this.marque = init_marque;
 		this.sommet_courant=init_id_sommet;
 		this.cout=init_cout;
-		this.pere=init_id_pere;
+		this.pere=init_pere;
 	}
+	
 	public double getCost()
 	{
 		return this.cout;
@@ -45,13 +46,10 @@ public class Label implements Comparable<Label>{
 	{
 		return this.sommet_courant;
 	}
-    public static Comparator<Label> ComparatorSommet = new Comparator<Label>() {
-        
-        @Override
-        public int compare(Label l1, Label l2) {
-            return (l1.getSommet()-l2.getSommet());
-        }
-    };
+	public Arc getArcPere()
+	{
+		return this.pere;
+    }
 	
 	
 }
