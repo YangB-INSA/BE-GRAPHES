@@ -41,10 +41,14 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		cout = 0;
         		Label label_origin = new Label(node.getId(),marque,cout,0);
         		bin_heap.insert(label_origin);
+        		list_label.add(label_origin);
         		
         	}
-        	Label label = new Label(node.getId(),marque,cout,0);
-        	list_label.add(label);
+        	else
+        	{
+        		Label label = new Label(node.getId(),marque,cout,0);
+        		list_label.add(label);
+        	}
         }
         
         Collections.sort(list_label, Label.ComparatorSommet);
@@ -54,30 +58,33 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         //algorithme
         while (nb_node_marque < size_graph)
         {
+        	//on trouve le plus petit element du tas
         	Label x = bin_heap.findMin();
         	Node node_x = graph.get(x.getSommet());
+        	//cette element devient "marqué"
         	x.marque = true;
         	list_label.set(node_x.getId(), x);
         	
-        	
+        	//cout de cette element
         	double cost_x = x.getCost();
         	
         	List<Arc> successors = node_x.getSuccessors();
+        	// pour chacun de ses successeurs
         	for (Arc arc_successor : successors)
         	{
         		Node node_y = arc_successor.getDestination();
         		Label label_y = list_label.get(node_y.getId());
+        		//si un successeur n'est pas marqué
         		if (label_y.marque == false)
         		{
         			double cost_y = label_y.getCost();
         			if (cost_y > (cost_x + arc_successor.getMinimumTravelTime()))
 					{
         				double new_cost = cost_x + arc_successor.getMinimumTravelTime();
-						Label new_label_y = new Label(node_y.getId(),false,new_cost,x.getSommet());
-						
-						
+						Label new_label_y = new Label(node_y.getId(),false,new_cost,x.getSommet()); 
 						list_label.set(node_y.getId(), new_label_y);
 						bin_heap.insert(new_label_y);
+						nb_node_marque ++;
 					}	
         				
         		}
