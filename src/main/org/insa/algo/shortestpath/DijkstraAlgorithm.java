@@ -24,7 +24,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         BinaryHeap<Label> bin_heap = new BinaryHeap<Label>();
         List<Label> list_label = new ArrayList<Label>();
-        Collections.sort(list_label, Label.ComparatorSommet);
         
         Node node_origin = data.getOrigin();
         Node node_destination = data.getDestination();
@@ -47,6 +46,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	Label label = new Label(node.getId(),marque,cout,0);
         	list_label.add(label);
         }
+        
+        Collections.sort(list_label, Label.ComparatorSommet);
         
         
         
@@ -73,6 +74,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 					{
         				double new_cost = cost_x + arc_successor.getMinimumTravelTime();
 						Label new_label_y = new Label(node_y.getId(),false,new_cost,x.getSommet());
+						
+						
 						list_label.set(node_y.getId(), new_label_y);
 						bin_heap.insert(new_label_y);
 					}	
