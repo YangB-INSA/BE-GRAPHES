@@ -21,34 +21,14 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         int size_graph = graph.size();
         
         BinaryHeap<Label> bin_heap = new BinaryHeap<Label>();
-        List<Label> list_label = new ArrayList<Label>();
+        List<Label> list_label = new ArrayList<Label>(size_graph);
+        for(int i =0; i < size_graph; i++)
+        {
+        	list_label.add(null);
+        }
         
         Node node_origin = data.getOrigin();
         Node node_destination = data.getDestination();
-        
-        
-        // phase d'initialisation
-        /*
-        for (Node node : nodes)
-        {
-        	boolean marque = false;
-        	double cout = 1e10;
-        	if (node.getId()==node_origin.getId())
-        	{
-        		marque = true;
-        		cout = 0;
-        		Label label_origin = new Label(node.getId(),marque,cout,0);
-        		bin_heap.insert(label_origin);
-        		list_label.add(label_origin);
-        		
-        	}
-        	else
-        	{
-        		Label label = new Label(node.getId(),marque,cout,0);
-        		list_label.add(label);
-        	}
-        }
-        */
         
         //insertion du premier label
         Label label_origin = new Label(node_origin.getId(),true,0,null);
@@ -89,6 +69,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         			exist_prev = false;
         			Label init_label_y = new Label(node_y.getId(),false,1e10,null);
         			list_label.set(node_y.getId(), init_label_y);
+        			label_y = init_label_y;
         		}
         		
         		//si un successeur n'est pas marqué
