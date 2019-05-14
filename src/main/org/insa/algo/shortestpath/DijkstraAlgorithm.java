@@ -34,18 +34,21 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Label label_origin = new Label(node_origin.getId(),true,0,null);
         list_label.set(node_origin.getId(), label_origin);
         bin_heap.insert(label_origin);
+        notifyOriginProcessed(node_origin);
         boolean arrive = false;
+        int compteur = 0;
         
         //algorithme
         while (bin_heap.isEmpty()==false && arrive == false)
         {
         	//on trouve le plus petit element du tas
-        	
+        	compteur ++;
         	Label x = bin_heap.deleteMin();
-        	Node node_x = graph.get(x.getSommet());
+        	Node node_x = graph.get(x.getSommet());	
         	//cet element devient "marqué"
         	x.marque = true;
         	list_label.set(node_x.getId(), x);
+        	notifyNodeMarked(node_x);
         	if (node_x == node_destination)
         	{
         		arrive = true;
@@ -56,6 +59,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	double cost_x = x.getCost();
         	
         	List<Arc> successors = node_x.getSuccessors();
+
         	// pour chacun de ses successeurs
         	for (Arc arc_successor : successors)
         	{
@@ -67,9 +71,11 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		if (label_y == null)
         		{
         			exist_prev = false;
+        			notifyNodeReached(node_y);
         			Label init_label_y = new Label(node_y.getId(),false,1e10,null);
         			list_label.set(node_y.getId(), init_label_y);
         			label_y = init_label_y;
+        			
         		}
         		
         		//si un successeur n'est pas marqué
@@ -95,6 +101,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         // Destination has no predecessor, the solution is infeasible...
         if (arrive == false) {
             solution = new ShortestPathSolution(data, Status.INFEASIBLE);
+            
         }
         else {
 
@@ -119,6 +126,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
             // Create the final solution.
             solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph, arcs));
+            System.out.println("nb d'itération :"+compteur);
+            System.out.println(("nb d'arcs :"+(solution.getPath().size()-1)));
+            System.out.println("rapport :"+(compteur/(solution.getPath().size()-1)));
+            
         }
 
         return solution;
