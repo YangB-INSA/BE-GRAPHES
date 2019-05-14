@@ -82,9 +82,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		if (label_y.marque == false)
         		{
         			double cost_y = label_y.getCost();
-        			if (cost_y > (cost_x + arc_successor.getMinimumTravelTime()))
+        			if (cost_y > (cost_x + arc_successor.getLength()))
 					{
-        				double new_cost = cost_x + arc_successor.getMinimumTravelTime();
+        				double new_cost = cost_x + arc_successor.getLength();
 						Label new_label_y = new Label(node_y.getId(),false,new_cost,arc_successor);
 						if (exist_prev == true)
 						{
