@@ -126,12 +126,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
             // Create the final solution.
             solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph, arcs));
-            System.out.println("nb d'itération :"+compteur);
-            System.out.println(("nb d'arcs :"+(solution.getPath().size()-1)));
-            System.out.println("rapport :"+(compteur/(solution.getPath().size()-1)));
             
         }
 
+        
         return solution;
     }
 }
