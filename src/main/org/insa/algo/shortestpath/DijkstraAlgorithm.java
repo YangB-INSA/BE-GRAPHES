@@ -12,7 +12,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
     }
 
     @Override
-    protected ShortestPathSolution doRun() {
+    public ShortestPathSolution doRun() {
     	
         ShortestPathData data = getInputData();
         ShortestPathSolution solution = null;

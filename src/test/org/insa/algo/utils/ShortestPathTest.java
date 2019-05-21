@@ -23,12 +23,9 @@ public class ShortestPathTest {
 	
 	public static Graph belgiumGraph;
 	
-	
-	// on essaye de prendre un bateau
+
+	//chemin entre ile et continent
 	private static Node[] nodesImpossible;
-	
-	
-	
 	
 	
 	@BeforeClass
