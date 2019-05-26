@@ -36,13 +36,11 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         bin_heap.insert(label_origin);
         notifyOriginProcessed(node_origin);
         boolean arrive = false;
-        int compteur = 0;
         
         //algorithme
         while (bin_heap.isEmpty()==false && arrive == false)
         {
         	//on trouve le plus petit element du tas
-        	compteur ++;
         	Label x = bin_heap.deleteMin();
         	Node node_x = graph.get(x.getSommet());	
         	//cet element devient "marqué"
@@ -53,7 +51,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	{
         		arrive = true;
         	}
-        	
         	
         	//cout de cette element
         	double cost_x = x.getCost();
@@ -74,8 +71,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         			notifyNodeReached(node_y);
         			Label init_label_y = new Label(node_y.getId(),false,1e10,null);
         			list_label.set(node_y.getId(), init_label_y);
-        			label_y = init_label_y;
-        			
+        			label_y = init_label_y;	
         		}
         		
         		//si un successeur n'est pas marqué
@@ -129,7 +125,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             
         }
 
-        
         return solution;
     }
 }

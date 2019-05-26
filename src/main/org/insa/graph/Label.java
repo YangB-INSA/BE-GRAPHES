@@ -1,5 +1,5 @@
 package org.insa.graph;
-import java.util.Comparator;
+
 
 public class Label implements Comparable<Label>{
 	
@@ -24,22 +24,10 @@ public class Label implements Comparable<Label>{
 	{
 		return this.cout;
 	}
-	public int compareTo(Label label)
+	
+	public double getTotalCost()
 	{
-		int result =0;
-		if (this.getCost()>label.getCost())
-		{
-			result = 1;
-		}
-		if (this.getCost()==label.getCost())
-		{
-			result = 0;
-		}
-		if (this.getCost()<label.getCost())
-		{
-			result = -1;
-		}
-		return result;
+		return this.cout;
 	}
 	
 	public int getSommet()
@@ -51,5 +39,22 @@ public class Label implements Comparable<Label>{
 		return this.pere;
     }
 	
-	
+	public int compareTo(Label label)
+	{
+		int result =0;
+		if (this.getTotalCost()>label.getTotalCost())
+		{
+			result = 1;
+		}
+		if (this.getTotalCost()==label.getTotalCost())
+		{
+			result = 0;
+		}
+		if (this.getTotalCost()<label.getTotalCost())
+		{
+			result = -1;
+		}
+		return result;
+	}
+
 }

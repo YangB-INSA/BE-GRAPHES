@@ -1,19 +1,16 @@
 package org.insa.algo.shortestpath;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.insa.algo.AbstractSolution.Status;
-import org.insa.algo.utils.BinaryHeap;
 import org.insa.graph.*;
+import java.util.*;
+
+import org.insa.algo.AbstractInputData;
+import org.insa.algo.AbstractSolution.Status;
+import org.insa.algo.utils.*;
 
 public class AStarAlgorithm extends DijkstraAlgorithm {
 
     public AStarAlgorithm(ShortestPathData data) {
         super(data);
     }
-    
     @Override
     public ShortestPathSolution doRun() {
     	
@@ -23,7 +20,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         Graph graph = data.getGraph();
         int size_graph = graph.size();
         
-        BinaryHeap<LabelStar> bin_heap = new BinaryHeap<LabelStar>();
+        BinaryHeap<Label> bin_heap = new BinaryHeap<Label>();
         List<LabelStar> list_label = new ArrayList<LabelStar>(size_graph);
         for(int i =0; i < size_graph; i++)
         {
@@ -38,16 +35,16 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         list_label.set(node_origin.getId(), label_origin);
         bin_heap.insert(label_origin);
         notifyOriginProcessed(node_origin);
+        
         boolean arrive = false;
-        int compteur = 0;
         
         //algorithme
         while (bin_heap.isEmpty()==false && arrive == false)
         {
         	//on trouve le plus petit element du tas
-        	compteur ++;
-        	LabelStar x = bin_heap.deleteMin();
+        	LabelStar x = (LabelStar) bin_heap.deleteMin();
         	Node node_x = graph.get(x.getSommet());	
+        	
         	//cet element devient "marquÃ©"
         	x.marque = true;
         	list_label.set(node_x.getId(), x);
@@ -57,8 +54,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         		arrive = true;
         	}
         	
-        	
-        	//cout de cet element
+        	//cout de cette element
         	double cost_x = x.getCost();
         	
         	List<Arc> successors = node_x.getSuccessors();
@@ -68,6 +64,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         	{
         		Node node_y = arc_successor.getDestination();
         		LabelStar label_y = list_label.get(node_y.getId());
+        		double cout_est_y=0;
         		
         		boolean exist_prev = true;
         		
@@ -75,11 +72,21 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         		{
         			exist_prev = false;
         			notifyNodeReached(node_y);
-        			double cout_est_y = node_y.getPoint().distanceTo(node_destination.getPoint());
+        			// on calcul le cout estimé en fonction de la nature du cout désirée
+        			
+        			// en longueur
+        			if (data.getMode() == AbstractInputData.Mode.LENGTH) {
+        				cout_est_y= node_y.getPoint().distanceTo(node_destination.getPoint());
+        			}
+        			// en temps
+        			else {
+        				int vitessemax = Math.max(data.getMaximumSpeed(), data.getGraph().getGraphInformation().getMaximumSpeed());
+        				cout_est_y= node_y.getPoint().distanceTo(node_destination.getPoint())/vitessemax*3.6;
+        			}
+        			
         			LabelStar init_label_y = new LabelStar(node_y.getId(),false,1e10,null,cout_est_y);
         			list_label.set(node_y.getId(), init_label_y);
-        			label_y = init_label_y;
-        			
+        			label_y = init_label_y;	
         		}
         		
         		//si un successeur n'est pas marquÃ©
@@ -89,7 +96,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         			if (cost_y > (cost_x + data.getCost(arc_successor)))
 					{
         				double new_cost = cost_x + data.getCost(arc_successor);
-        				double cout_est_y = label_y.cout_est;
+        				cout_est_y = label_y.cout_est;
 						LabelStar new_label_y = new LabelStar(node_y.getId(),false,new_cost,arc_successor,cout_est_y);
 						if (exist_prev == true)
 						{
@@ -106,7 +113,6 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         // Destination has no predecessor, the solution is infeasible...
         if (arrive == false) {
             solution = new ShortestPathSolution(data, Status.INFEASIBLE);
-            
         }
         else {
 
@@ -131,11 +137,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
 
             // Create the final solution.
             solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph, arcs));
-            
         }
-
-        
         return solution;
     }
-
 }
