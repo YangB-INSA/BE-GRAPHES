@@ -18,8 +18,6 @@ public class PerformanceDijkstraTest {
 	
 	public static Graph belgiumGraph;
 	
-	public static Graph garonneGraph;
-	
 	public static ArcInspector arcinspectorlength;
 	
 	public static ArcInspector arcinspectortime;
@@ -32,12 +30,9 @@ public class PerformanceDijkstraTest {
 	public static void initAll() throws Exception {
 		
 		//cartes utilisées
-		//String mapToulouse = "/home/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/toulouse.mapgr";
 		String mapFrance = "D:\\Projet INSA\\Maps\\france.mapgr";
-		//String mapHaiti = "/home/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/haiti-and-domrep.mapgr";
 		String mapBelgium = "D:\\Projet INSA\\Maps\\belgium.mapgr";
-		//String mapBelgium = "/home/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/belgium.mapgr";
-		String mapGaronne = "D:\\Projet INSA\\Maps\\haute-garonne.mapgr";
+		
 		
         GraphReader reader1 = new BinaryGraphReader(
                 new DataInputStream(new BufferedInputStream(new FileInputStream(mapFrance))));
@@ -45,24 +40,32 @@ public class PerformanceDijkstraTest {
         GraphReader reader2 = new BinaryGraphReader(
                 new DataInputStream(new BufferedInputStream(new FileInputStream(mapBelgium))));
         
-        GraphReader reader3 = new BinaryGraphReader(
-                new DataInputStream(new BufferedInputStream(new FileInputStream(mapGaronne))));
-        
         // Graph de test
 		franceGraph = reader1.read();
 		belgiumGraph = reader2.read();
-		garonneGraph = reader3.read();
 		
 		//arc inspector
 		arcinspectorlength = ArcInspectorFactory.getAllFilters().get(0);
 		arcinspectortime = ArcInspectorFactory.getAllFilters().get(2);
 		
 		//data length
-		data1 = new ShortestPathData(belgiumGraph,belgiumGraph.get(350502),belgiumGraph.get(230969),arcinspectorlength);
-		data2 = new ShortestPathData(garonneGraph,garonneGraph.get(26431),garonneGraph.get(60105),arcinspectorlength);
+		data1 = new ShortestPathData(belgiumGraph,belgiumGraph.get(859265),belgiumGraph.get(1015144),arcinspectorlength);
+		data2 = new ShortestPathData(belgiumGraph,belgiumGraph.get(779268),belgiumGraph.get(3596),arcinspectorlength);
+		data3 = new ShortestPathData(belgiumGraph,belgiumGraph.get(531717),belgiumGraph.get(22677),arcinspectorlength);
+		/*
+		data1 = new ShortestPathData(franceGraph,franceGraph.get(350502),franceGraph.get(230969),arcinspectorlength);
+		data2 = new ShortestPathData(franceGraph,franceGraph.get(350502),franceGraph.get(230969),arcinspectorlength);
+		data3 = new ShortestPathData(franceGraph,franceGraph.get(350502),franceGraph.get(230969),arcinspectorlength);
+		*/
 		//data time
-		data3 = new ShortestPathData(belgiumGraph,belgiumGraph.get(350502),belgiumGraph.get(230969),arcinspectortime);
-		data4 = new ShortestPathData(garonneGraph,garonneGraph.get(26431),garonneGraph.get(60105),arcinspectortime);
+		data4 = new ShortestPathData(belgiumGraph,belgiumGraph.get(859265),belgiumGraph.get(1015144),arcinspectortime);
+		data5 = new ShortestPathData(belgiumGraph,belgiumGraph.get(779268),belgiumGraph.get(3596),arcinspectortime);
+		data6 = new ShortestPathData(belgiumGraph,belgiumGraph.get(531717),belgiumGraph.get(22677),arcinspectortime);
+		/*
+		data1 = new ShortestPathData(franceGraph,franceGraph.get(350502),franceGraph.get(230969),arcinspectortime);
+		data2 = new ShortestPathData(franceGraph,franceGraph.get(350502),franceGraph.get(230969),arcinspectortime);
+		data3 = new ShortestPathData(franceGraph,franceGraph.get(350502),franceGraph.get(230969),arcinspectortime);
+		*/
 	}
 	
 	@Test
@@ -74,10 +77,14 @@ public class PerformanceDijkstraTest {
 		DijkstraAlgorithm dij2 = new DijkstraAlgorithm(data2);
 		AStarAlgorithm star2 = new AStarAlgorithm(data2);
 		
-		System.out.println("\n ------Test ShortestPath------ \n" );
-		//A tester sur de grandes cartes pour voir des résultats significatifs
-		System.out.println("Test sur la carte de Belgique \n" );
+		DijkstraAlgorithm dij3 = new DijkstraAlgorithm(data3);
+		AStarAlgorithm star3 = new AStarAlgorithm(data3);
 		
+		System.out.println("\n ------Test ShortestPath------ \n" );
+
+		System.out.println("--Test sur la carte de Belgique--\n" );
+		
+		System.out.println("-Test 'grande échelle'- \n" );
 		Time1 = System.currentTimeMillis();
 		dij.doRun();
 		Time2 = System.currentTimeMillis() - Time1;
@@ -89,9 +96,7 @@ public class PerformanceDijkstraTest {
 		System.out.println("Temps d'execution A*:" + Time3 +" ms");
 		System.out.println("A* est " + (float)Time2/Time3 + " plus rapide que Dijkstra" );
 		
-		
-		System.out.println("\nTest sur la carte de Haute-Garonne \n" );
-		
+		System.out.println("\n-Test 'moyenne échelle'- \n" );
 		Time1 = System.currentTimeMillis();
 		dij2.doRun();
 		Time2 = System.currentTimeMillis() - Time1;
@@ -100,7 +105,19 @@ public class PerformanceDijkstraTest {
 		Time1 = System.currentTimeMillis();
 		star2.doRun();
 		Time3 = System.currentTimeMillis() - Time1;
-		System.out.println("Temps d'execution A* :" + Time3 +" ms");
+		System.out.println("Temps d'execution A*:" + Time3 +" ms");
+		System.out.println("A* est " + (float)Time2/Time3 + " plus rapide que Dijkstra" );
+		
+		System.out.println("\n-Test 'petite échelle'- \n" );
+		Time1 = System.currentTimeMillis();
+		dij3.doRun();
+		Time2 = System.currentTimeMillis() - Time1;
+		System.out.println("Temps d'execution Dijkstra :" + Time2 +" ms");
+		
+		Time1 = System.currentTimeMillis();
+		star3.doRun();
+		Time3 = System.currentTimeMillis() - Time1;
+		System.out.println("Temps d'execution A*:" + Time3 +" ms");
 		System.out.println("A* est " + (float)Time2/Time3 + " plus rapide que Dijkstra" );
 
 	}
@@ -109,16 +126,20 @@ public class PerformanceDijkstraTest {
 	public void testTemps() 
 	{
 		
-		DijkstraAlgorithm dij = new DijkstraAlgorithm(data3);
-		AStarAlgorithm star = new AStarAlgorithm(data3);
+		DijkstraAlgorithm dij = new DijkstraAlgorithm(data4);
+		AStarAlgorithm star = new AStarAlgorithm(data4);
 		
-		DijkstraAlgorithm dij2 = new DijkstraAlgorithm(data4);
-		AStarAlgorithm star2 = new AStarAlgorithm(data4);
+		DijkstraAlgorithm dij2 = new DijkstraAlgorithm(data5);
+		AStarAlgorithm star2 = new AStarAlgorithm(data5);
+		
+		DijkstraAlgorithm dij3 = new DijkstraAlgorithm(data6);
+		AStarAlgorithm star3 = new AStarAlgorithm(data6);
 		
 		System.out.println("\n ------Test FastestPath------ \n" );
 		//A tester sur de grandes cartes pour voir des résultats significatifs
-		System.out.println("\nTest sur la carte de Belgique \n" );
+		System.out.println("--Test sur la carte de Belgique--\n" );
 		
+		System.out.println("-Test 'grande échelle'- \n" );
 		Time1 = System.currentTimeMillis();
 		dij.doRun();
 		Time2 = System.currentTimeMillis() - Time1;
@@ -130,9 +151,7 @@ public class PerformanceDijkstraTest {
 		System.out.println("Temps d'execution A*:" + Time3 +" ms");
 		System.out.println("A* est " + (float)Time2/Time3 + " plus rapide que Dijkstra" );
 		
-		
-		System.out.println("\nTest sur la carte de Haute-Garonne \n" );
-		
+		System.out.println("\n-Test 'moyenne échelle'- \n" );
 		Time1 = System.currentTimeMillis();
 		dij2.doRun();
 		Time2 = System.currentTimeMillis() - Time1;
@@ -141,7 +160,19 @@ public class PerformanceDijkstraTest {
 		Time1 = System.currentTimeMillis();
 		star2.doRun();
 		Time3 = System.currentTimeMillis() - Time1;
-		System.out.println("Temps d'execution A* :" + Time3 +" ms");
+		System.out.println("Temps d'execution A*:" + Time3 +" ms");
+		System.out.println("A* est " + (float)Time2/Time3 + " plus rapide que Dijkstra" );
+		
+		System.out.println("\n-Test 'petite échelle'- \n" );
+		Time1 = System.currentTimeMillis();
+		dij3.doRun();
+		Time2 = System.currentTimeMillis() - Time1;
+		System.out.println("Temps d'execution Dijkstra :" + Time2 +" ms");
+		
+		Time1 = System.currentTimeMillis();
+		star3.doRun();
+		Time3 = System.currentTimeMillis() - Time1;
+		System.out.println("Temps d'execution A*:" + Time3 +" ms");
 		System.out.println("A* est " + (float)Time2/Time3 + " plus rapide que Dijkstra" );
 	}
 
