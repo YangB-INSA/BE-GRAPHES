@@ -178,7 +178,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     		percolateDown(index);
     	}
     }
-
+    
     @Override
     public E findMin() throws EmptyPriorityQueueException {
         if (isEmpty())

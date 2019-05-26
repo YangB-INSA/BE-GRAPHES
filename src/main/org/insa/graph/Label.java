@@ -14,8 +14,8 @@ public class Label implements Comparable<Label>{
 	
 	public Label(int init_id_sommet,boolean init_marque,double init_cout,Arc init_pere)
 	{
-		this.marque = init_marque;
 		this.sommet_courant=init_id_sommet;
+		this.marque = init_marque;
 		this.cout=init_cout;
 		this.pere=init_pere;
 	}

@@ -70,7 +70,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         		
         		if (label_y == null)
         		{
-        			exist_prev = false;
+        			exist_prev= false;
         			notifyNodeReached(node_y);
         			// on calcul le cout estimé en fonction de la nature du cout désirée
         			
@@ -102,7 +102,6 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
 						{
 							bin_heap.remove(label_y);
 						}
-						
 						list_label.set(node_y.getId(), new_label_y);
 						bin_heap.insert(new_label_y);
 					}

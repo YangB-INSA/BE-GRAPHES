@@ -20,8 +20,13 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Graph graph = data.getGraph();
         int size_graph = graph.size();
         
+        // tas de labels
         BinaryHeap<Label> bin_heap = new BinaryHeap<Label>();
+        
+        //Liste de labels
         List<Label> list_label = new ArrayList<Label>(size_graph);
+        
+        //on remplit la liste de labels nuls
         for(int i =0; i < size_graph; i++)
         {
         	list_label.add(null);
@@ -37,16 +42,19 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         notifyOriginProcessed(node_origin);
         boolean arrive = false;
         
-        //algorithme
+        //Tant que le tas n'est pas vide ( 
         while (bin_heap.isEmpty()==false && arrive == false)
         {
         	//on trouve le plus petit element du tas
         	Label x = bin_heap.deleteMin();
         	Node node_x = graph.get(x.getSommet());	
-        	//cet element devient "marquÃ©"
+        	
+        	//cet element devient "marqué"
         	x.marque = true;
         	list_label.set(node_x.getId(), x);
         	notifyNodeMarked(node_x);
+        	
+        	//Si on attend la destination, l'algorithme s'arrête
         	if (node_x == node_destination)
         	{
         		arrive = true;
@@ -56,25 +64,27 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	double cost_x = x.getCost();
         	
         	List<Arc> successors = node_x.getSuccessors();
-
-        	// pour chacun de ses successeurs
+        	
+        	// On parcourt tout ses successeurs
         	for (Arc arc_successor : successors)
         	{
         		Node node_y = arc_successor.getDestination();
         		Label label_y = list_label.get(node_y.getId());
         		
         		boolean exist_prev = true;
-        		
+        	
+        		//si il n'y avait pas de label associé à ce noeud
         		if (label_y == null)
         		{
         			exist_prev = false;
         			notifyNodeReached(node_y);
+        			// on crée le label et on le met dans la liste
         			Label init_label_y = new Label(node_y.getId(),false,1e10,null);
         			list_label.set(node_y.getId(), init_label_y);
         			label_y = init_label_y;	
         		}
         		
-        		//si un successeur n'est pas marquÃ©
+        		// si le successeur n'est pas marqué
         		if (label_y.marque == false)
         		{
         			double cost_y = label_y.getCost();
@@ -82,11 +92,13 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 					{
         				double new_cost = cost_x + data.getCost(arc_successor);
 						Label new_label_y = new Label(node_y.getId(),false,new_cost,arc_successor);
+						// si le label etait dans le tas
+						// on l'enlève du tas
 						if (exist_prev == true)
 						{
 							bin_heap.remove(label_y);
 						}
-						
+						// on ajoute le label à la liste et au tas
 						list_label.set(node_y.getId(), new_label_y);
 						bin_heap.insert(new_label_y);
 					}
