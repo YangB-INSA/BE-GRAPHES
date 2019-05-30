@@ -77,14 +77,13 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         			}
         			// en temps
         			else {
-        				int vitessemax = 37;   // 37 m par secinde
+        				int vitessemax = 37;   // 37 m par seconde
         				cout_est_y= node_y.getPoint().distanceTo(node_destination.getPoint())/vitessemax;
         			}
         			
         			LabelStar init_label_y = new LabelStar(node_y.getId(),false,1e10,null,cout_est_y);
         			list_label.set(node_y.getId(), init_label_y);
         			label_y = init_label_y;
-        			System.out.println(node_y.getPoint().distanceTo(node_destination.getPoint()));
         		}
         		
         		//si un successeur n'est pas marqué
@@ -96,6 +95,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         				double new_cost = cost_x + data.getCost(arc_successor);
         				cout_est_y = label_y.cout_est;
 						LabelStar new_label_y = new LabelStar(node_y.getId(),false,new_cost,arc_successor,cout_est_y);
+						new_label_y.inHeap = label_y.inHeap;
 						if (new_label_y.inHeap==true)
 						{
 							bin_heap.remove(label_y);
