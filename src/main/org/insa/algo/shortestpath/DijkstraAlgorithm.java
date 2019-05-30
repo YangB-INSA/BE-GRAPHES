@@ -49,12 +49,12 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	Label x = bin_heap.deleteMin();
         	Node node_x = graph.get(x.getSommet());	
         	
-        	//cet element devient "marqué"
+        	//cet element devient "marquï¿½"
         	x.marque = true;
         	list_label.set(node_x.getId(), x);
         	notifyNodeMarked(node_x);
         	
-        	//Si on attend la destination, l'algorithme s'arrête
+        	//Si on attend la destination, l'algorithme s'arrï¿½te
         	if (node_x == node_destination)
         	{
         		arrive = true;
@@ -71,17 +71,17 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		Node node_y = arc_successor.getDestination();
         		Label label_y = list_label.get(node_y.getId());
         	
-        		//si il n'y avait pas de label associé à ce noeud
+        		//si il n'y avait pas de label associÃ© Ã  ce noeud, on le crÃ©e
         		if (label_y == null)
         		{
         			notifyNodeReached(node_y);
-        			// on crée le label et on le met dans la liste
+        			// on crï¿½e le label et on le met dans la liste
         			Label init_label_y = new Label(node_y.getId(),false,1e10,null);
         			list_label.set(node_y.getId(), init_label_y);
         			label_y = init_label_y;	
         		}
         		
-        		// si le successeur n'est pas marqué
+        		// si le successeur n'est pas marquÃ©, on met potentiellement a jour le ocut
         		if (label_y.marque == false)
         		{
         			double cost_y = label_y.getCost();
@@ -89,17 +89,14 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 					{
         				double new_cost = cost_x + data.getCost(arc_successor);
 						Label new_label_y = new Label(node_y.getId(),false,new_cost,arc_successor);
-						new_label_y.remove=label_y.remove;
 						// si le label etait dans le tas (qu'on peut le remove)
-						// on l'enlève du tas
-						if (new_label_y.remove==true)
+						// on l'enlÃ¨ve du tas
+						if (label_y.inHeap==true)
 						{
 							bin_heap.remove(label_y);
 						}
-						else {
-							new_label_y.remove=true;
-						}
-						// on ajoute le label à la liste et au tas
+						// on ajoute le label ï¿½ la liste et au tas
+						new_label_y.inHeap = true;
 						list_label.set(node_y.getId(), new_label_y);
 						bin_heap.insert(new_label_y);
 					}
