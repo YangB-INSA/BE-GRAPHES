@@ -70,13 +70,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	{
         		Node node_y = arc_successor.getDestination();
         		Label label_y = list_label.get(node_y.getId());
-        		
-        		boolean exist_prev = true;
         	
         		//si il n'y avait pas de label associé à ce noeud
         		if (label_y == null)
         		{
-        			exist_prev = false;
         			notifyNodeReached(node_y);
         			// on crée le label et on le met dans la liste
         			Label init_label_y = new Label(node_y.getId(),false,1e10,null);
@@ -92,11 +89,15 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 					{
         				double new_cost = cost_x + data.getCost(arc_successor);
 						Label new_label_y = new Label(node_y.getId(),false,new_cost,arc_successor);
-						// si le label etait dans le tas
+						new_label_y.remove=label_y.remove;
+						// si le label etait dans le tas (qu'on peut le remove)
 						// on l'enlève du tas
-						if (exist_prev == true)
+						if (new_label_y.remove==true)
 						{
 							bin_heap.remove(label_y);
+						}
+						else {
+							new_label_y.remove=true;
 						}
 						// on ajoute le label à la liste et au tas
 						list_label.set(node_y.getId(), new_label_y);

@@ -66,11 +66,8 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         		LabelStar label_y = list_label.get(node_y.getId());
         		double cout_est_y=0;
         		
-        		boolean exist_prev = true;
-        		
         		if (label_y == null)
         		{
-        			exist_prev= false;
         			notifyNodeReached(node_y);
         			// on calcul le cout estimé en fonction de la nature du cout désirée
         			
@@ -98,9 +95,13 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         				double new_cost = cost_x + data.getCost(arc_successor);
         				cout_est_y = label_y.cout_est;
 						LabelStar new_label_y = new LabelStar(node_y.getId(),false,new_cost,arc_successor,cout_est_y);
-						if (exist_prev == true)
+						new_label_y.remove=label_y.remove;
+						if (new_label_y.remove==true)
 						{
 							bin_heap.remove(label_y);
+						}
+						else {
+							new_label_y.remove=true;
 						}
 						list_label.set(node_y.getId(), new_label_y);
 						bin_heap.insert(new_label_y);
