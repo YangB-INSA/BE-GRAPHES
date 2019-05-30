@@ -89,6 +89,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 					{
         				double new_cost = cost_x + data.getCost(arc_successor);
 						Label new_label_y = new Label(node_y.getId(),false,new_cost,arc_successor);
+						new_label_y.inHeap = label_y.inHeap;
 						// si le label etait dans le tas (qu'on peut le remove)
 						// on l'enlève du tas
 						if (label_y.inHeap==true)
