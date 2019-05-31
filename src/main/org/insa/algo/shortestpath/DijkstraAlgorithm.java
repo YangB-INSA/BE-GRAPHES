@@ -26,7 +26,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         // tas de labels
         BinaryHeap<Label> bin_heap = new BinaryHeap<Label>();
         
-        //Liste de labels
+        //Liste de labels (l'index correspond à l'id du noeud)
         List<Label> list_label = new ArrayList<Label>(size_graph);
         
         //on remplit la liste de labels nuls
@@ -45,7 +45,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         notifyOriginProcessed(node_origin);
         boolean arrive = false;
         
-        //Tant que le tas n'est pas vide ( 
+        //Tant que le tas n'est pas vide et qu'on a pas trouvé le cout minimum de ntore destination 
         while (bin_heap.isEmpty()==false && arrive == false)
         {
    
@@ -53,18 +53,18 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	Label x = bin_heap.deleteMin();
         	Node node_x = graph.get(x.getSommet());	
         	
-        	//cet element devient "marqu�"
+        	//cet element devient "marqué"
         	x.marque = true;
         	list_label.set(node_x.getId(), x);
         	notifyNodeMarked(node_x);
         	
-        	//Si on attend la destination, l'algorithme s'arr�te
+        	//Si on a atteind la destination, l'algorithme s'arrete
         	if (node_x == node_destination)
         	{
         		arrive = true;
         	}
         	
-        	//cout de cette element
+        	//cout de cet element
         	double cost_x = x.getCost();
         	
         	List<Arc> successors = node_x.getSuccessors();
@@ -79,14 +79,14 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		if (label_y == null)
         		{
         			notifyNodeReached(node_y);
-        			// on cr�e le label et on le met dans la liste
+        			// on crée le label et on le met dans la liste
         			Label init_label_y = new Label(node_y.getId(),false,1e10,null);
         			list_label.set(node_y.getId(), init_label_y);
         			label_y = init_label_y;	
         			this.sommetvisite++;
         		}
         		
-        		// si le successeur n'est pas marqué, on met potentiellement a jour le ocut
+        		// si le successeur n'est pas marqué, on met potentiellement a jour le cout
         		if (label_y.marque == false)
         		{
         			double cost_y = label_y.getCost();
@@ -101,7 +101,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 						{
 							bin_heap.remove(label_y);
 						}
-						// on ajoute le label � la liste et au tas
+						// on ajoute le label au tas et on met a jour la liste de label
 						new_label_y.inHeap = true;
 						list_label.set(node_y.getId(), new_label_y);
 						bin_heap.insert(new_label_y);
