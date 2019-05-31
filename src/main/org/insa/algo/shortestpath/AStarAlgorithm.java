@@ -7,9 +7,11 @@ import org.insa.algo.AbstractSolution.Status;
 import org.insa.algo.utils.*;
 
 public class AStarAlgorithm extends DijkstraAlgorithm {
-
+	
+	public float sommetvisite2;
     public AStarAlgorithm(ShortestPathData data) {
         super(data);
+        this.sommetvisite2=0;
     }
     @Override
     public ShortestPathSolution doRun() {
@@ -84,6 +86,8 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         			LabelStar init_label_y = new LabelStar(node_y.getId(),false,1e10,null,cout_est_y);
         			list_label.set(node_y.getId(), init_label_y);
         			label_y = init_label_y;
+        			this.sommetvisite2++;
+        			
         		}
         		
         		//si un successeur n'est pas marqué

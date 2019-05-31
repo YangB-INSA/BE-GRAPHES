@@ -6,9 +6,12 @@ import org.insa.algo.AbstractSolution.Status;
 import org.insa.algo.utils.*;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
+	
+	public float sommetvisite;
 
     public DijkstraAlgorithm(ShortestPathData data) {
         super(data);
+        this.sommetvisite=0;
     }
 
     @Override
@@ -45,6 +48,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         //Tant que le tas n'est pas vide ( 
         while (bin_heap.isEmpty()==false && arrive == false)
         {
+   
         	//on trouve le plus petit element du tas
         	Label x = bin_heap.deleteMin();
         	Node node_x = graph.get(x.getSommet());	
@@ -79,6 +83,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         			Label init_label_y = new Label(node_y.getId(),false,1e10,null);
         			list_label.set(node_y.getId(), init_label_y);
         			label_y = init_label_y;	
+        			this.sommetvisite++;
         		}
         		
         		// si le successeur n'est pas marqué, on met potentiellement a jour le ocut

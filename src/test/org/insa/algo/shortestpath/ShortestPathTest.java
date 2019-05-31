@@ -28,17 +28,14 @@ public class ShortestPathTest {
 	
 	public static ArcInspector arcinspectortime;
 	
-	public static ShortestPathData data1,data2,data3,data4,data5,data6;
+	public static ShortestPathData data,data0,data1,data2,data3,data4,data5,data6;
 
 	@BeforeClass
 	public static void initAll() throws Exception {
 		
 		//cartes utilisées
-		//String mapToulouse = "/home/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/toulouse.mapgr";
 		String mapToulouse = "D:\\Projet INSA\\Maps\\toulouse.mapgr";
-		//String mapHaiti = "/home/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/haiti-and-domrep.mapgr";
 		String mapHaiti = "D:\\Projet INSA\\Maps\\haiti-and-domrep.mapgr";
-		//String mapBelgium = "/home/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/belgium.mapgr";
 		String mapGaronne = "D:\\Projet INSA\\Maps\\haute-garonne.mapgr";
 		
         GraphReader reader1 = new BinaryGraphReader(
@@ -59,6 +56,10 @@ public class ShortestPathTest {
 		arcinspectorlength = ArcInspectorFactory.getAllFilters().get(0);
 		arcinspectortime = ArcInspectorFactory.getAllFilters().get(2);
 		
+		// data chemin inexistant
+		data = new ShortestPathData(haitiGraph,haitiGraph.get(24585),haitiGraph.get(65539),arcinspectortime);
+		
+		
 		//data length
 		data1 = new ShortestPathData(toulouseGraph,toulouseGraph.get(17161),toulouseGraph.get(23752),arcinspectorlength);
 		data2 = new ShortestPathData(garonneGraph,garonneGraph.get(26431),garonneGraph.get(60105),arcinspectorlength);
@@ -71,15 +72,8 @@ public class ShortestPathTest {
 	public void testInexistant()
 	{
 		
-		int outofbounds = haitiGraph.size()+15;
-		
-		Node nodeinexistant = new Node(outofbounds,null);
+		Node nodeinexistant = new Node(haitiGraph.size()+15,null);
 		Node nodeexistant = new Node(haitiGraph.size()-3,null);
-		
-		Node nodeimpo1 = haitiGraph.get(24585);
-		Node nodeimpo2 = haitiGraph.get(65539);
-		
-		ShortestPathData data = new ShortestPathData(haitiGraph,nodeimpo1,nodeimpo2,arcinspectortime);
 		
 		DijkstraAlgorithm dij = new DijkstraAlgorithm(data);
 		
@@ -87,7 +81,6 @@ public class ShortestPathTest {
 		assertFalse(dij.doRun().isFeasible());
 		
 		// test pour nodes appartenant et n'appartenant pas aux graphes
-		
 		assertFalse(haitiGraph.getNodes().isEmpty());
 		assertFalse(haitiGraph.getNodes().contains(nodeinexistant));
 		assertTrue(haitiGraph.getNodes().contains(nodeexistant));
@@ -106,8 +99,9 @@ public class ShortestPathTest {
 		assertEquals(0,dij.doRun().getPath().getMinimumTravelTime(),0);
 		
 	}
+	
 	@Test
-	public void testLongueur() 
+	public void testShortest() 
 	{
 		DijkstraAlgorithm dij = new DijkstraAlgorithm(data1);
 		AStarAlgorithm star = new AStarAlgorithm(data1);
@@ -132,7 +126,7 @@ public class ShortestPathTest {
 	}
 	
 	@Test 
-	public void testTemps() 
+	public void testFastest() 
 	{
 		
 		DijkstraAlgorithm dij = new DijkstraAlgorithm(data3);
@@ -155,8 +149,6 @@ public class ShortestPathTest {
 		assertTrue(dij2.doRun().getPath().isValid());
 		assertTrue(star.doRun().getPath().isValid());
 		assertTrue(star2.doRun().getPath().isValid());
-		
-		
 	}
 }
 
